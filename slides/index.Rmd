@@ -1,0 +1,107 @@
+---
+title: "Do L2 Spanish acquire scalar implicatures?"
+subtitle: "DS4L final project"
+author: "Robert Esposito"
+institute: "Rutgers State University"
+date: "2016/12/12 (updated: `r Sys.Date()`)"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+# Introduction
+
+Replication of [Not just algunos, but indeed unos L2ers can acquire scalar implicatures in L2 Spanish](https://www.researchgate.net/profile/Roumyana-Slabakova/publication/311884036_Not_just_algunos_but_indeed_unos_L2ers_can_acquire_scalar_implicatures_in_L2_Spanish_Studies_in_honour_of_Juana_M_Liceras/links/595e9e7a0f7e9b8194b7228a/Not-just-algunos-but-indeed-unos-L2ers-can-acquire-scalar-implicatures-in-L2-Spanish-Studies-in-honour-of-Juana-M-Liceras.pdf) using simulated data
+
+```{r include=FALSE}
+source(
+  here::here("scripts","libraries.R")
+)
+```
+
+
+---
+# Introduction
+
+Do L2 Spanish speakers acquire monolingual-like use of scalar implicatures?
+
+Context: Only three out of four dogs bark at the postman.
+
+  a.    Unos perros ladraron al cartero.
+  
+  b.    Algunos perros ladraron al cartero
+  
+Context: All four dogs bark at the postman.
+
+  a.    Unos perros ladraron al cartero.
+  
+  b.    # Algunos perros ladraron al cartero
+  
+---
+# Research question
+1.    Do L2 Spanish speakers calculate the "some, but not all" scalar implicature from *algunos*? 
+
+2.    Do L2 Spanish speakers differ from monolingual Spanish speakers in their acceptability judgements about algunos/unos?
+---
+# Materials & Methods
+
+-   200 monolingual Spanish, 200 L2 Spanish
+-   Exposed to videos with four characters
+    -   3/4 characters vs 4/4 characters do an action
+    -   felicitous vs infelicitous statement about the video
+-   Participants watch video then say whether a statement about the video is felicitous (binary response)
+---
+# Materials & Methods
+## Conditions
+```{r echo=FALSE}
+tibble(
+  word = c("unos","unos","unos","unos","algunos","algunos","algunos","algunos"),
+  felicitous = c("felicitous","felicitous","infelicitous","infelicitous","felicitous","felicitous","infelicitous","infelicitous"),
+  condition = c("3/4", "4/4","3/4","4/4","3/4","4/4","3/4","4/4"),
+  n = c(5,5,5,5,5,5,5,5)
+) %>% kable()
+```
+---
+# Descriptive Results
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="500px"}
+include_graphics(
+  here(
+    "slides","plot1.png"
+  )
+)
+```
+---
+```{r message=FALSE, warning=FALSE, include=FALSE}
+source(
+  here(
+    "scripts","model.R"
+  )
+)
+```
+# Statistical Model
+-   Linear Mixed Model
+    -   Criterion: % acceptance
+    -   Fixed effects: group (mono, L2), number (3/4 or 4/4 characters doing an action), word (algunos, unos)
+    -   Random effect: participant
+---
+# Statistical Model
+```{r include=FALSE}
+anova(mod0,mod1,mod2,mod3,mod4)
+```
+The following model performed best in nested model (p < 0.001)
+
+% acceptance ~ mono + word + condition + (1 | id)
+---
+# Statistical Model
+```{r echo=FALSE}
+summary(mod3)$coefficients %>%
+  kable()
+```
+---
+# Discussion
+-   L2 Spanish perform similarly to monolingual Spanish speakers
+-   L2 Spanish speakers distinguish the scalar implicature of *algunos*
+---

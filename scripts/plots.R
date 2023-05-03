@@ -13,9 +13,9 @@ tidy_data <- read_csv(
 # plots
 plot1 <- tidy_data %>%
   ggplot() +
-  aes(x = mono, fill = preference) +
+  aes(x = mono, fill = as.factor(preference)) +
   geom_bar(position = "fill") +
   facet_wrap(word ~ condition) +
-  labs(x="mono or L2", y = "acceptance")
+  labs(title="Acceptability Judgement Task",x="mono or L2", y = "acceptance", fill = "accept statement?", caption="Figure 1: % acceptance of acceptability judgement task")
 
 plot1

@@ -1,52 +1,29 @@
 ---
-title             : "The title"
-shorttitle        : "Title"
+title             : "Not just algunos, but indeed unos L2ers can acquire scalar implicatures in L2 Spanish"
+shorttitle        : "A replication study with simulated data"
 
 author: 
-  - name          : "First Author"
+  - name          : "Robert Esposito"
     affiliation   : "1"
     corresponding : yes    # Define only one corresponding author
-    address       : "Postal address"
-    email         : "my@email.com"
+    address       : "57 US Highway 1. New Brunswick, NJ 08901-8554."
+    email         : "rme70@scarletmail.rutgers.edu"
     role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
       - "Conceptualization"
       - "Writing - Original Draft Preparation"
       - "Writing - Review & Editing"
-  - name          : "Ernst-August Doelle"
-    affiliation   : "1,2"
-    role:
-      - "Writing - Review & Editing"
-      - "Supervision"
 
 affiliation:
   - id            : "1"
-    institution   : "Wilhelm-Wundt-University"
-  - id            : "2"
-    institution   : "Konstanz Business School"
+    institution   : "Rutgers University"
 
 authornote: |
-  Add complete departmental affiliations for each author here. Each new line herein must be indented, like this line.
-
-  Enter author note here.
+  Department of Spanish and Portuguese
 
 abstract: |
-  One or two sentences providing a **basic introduction** to the field,  comprehensible to a scientist in any discipline.
+  This study investigates the acquisition of scalar implicatures in Spanish L2 learners through the perception of "algunos" and "unos", Spanish's two definite determiners. Although interchangeable in some contexts, "algunos" involves a scalar implicature (SI) "some, but not all", which may be difficult for L2 Spanish L1 English learners since this distinction is not made for English "some". I present 40 videos to participants, each of which contains four characters. The videos vary by number of characters performing an action (either 3 or 4 characters). After each video, the participant is presented with a statement about the video and must judge its acceptability. The statements vary by word (algunos or unos) and felicity. If L2 Spanish learners are sensitive to the SI of "algunos", they will perform like monolingual L1 Spanish speakers. The data was log-transformed and modeled using the R package glmer(), which provided evidence that L1 and L2 Spanish speakers patterned similarly in their judgements. Given this evidence, it appears that L2 Spanish L1 English speakers acquire the scalar implicature from "algunos" and are able to make the relevant distinction between "algunos" and "unos".
   
-  Two to three sentences of **more detailed background**, comprehensible  to scientists in related disciplines.
-  
-  One sentence clearly stating the **general problem** being addressed by  this particular study.
-  
-  One sentence summarizing the main result (with the words "**here we show**" or their equivalent).
-  
-  Two or three sentences explaining what the **main result** reveals in direct comparison to what was thought to be the case previously, or how the  main result adds to previous knowledge.
-  
-  One or two sentences to put the results into a more **general context**.
-  
-  Two or three sentences to provide a **broader perspective**, readily comprehensible to a scientist in any discipline.
-  
-  <!-- https://tinyurl.com/ybremelq -->
-  
-keywords          : "keywords"
+keywords          : "scalar implicature, syntax, pragmatic, syntax-pragmatic interface, Spanish, L2 Spanish"
 wordcount         : "X"
 
 bibliography      : "r-references.bib"
@@ -61,12 +38,26 @@ tablelist         : no
 footnotelist      : no
 
 classoption       : "man"
-output            : papaja::apa6_pdf
+output            : papaja::apa6_word
 ---
 
 ```{r setup, include = FALSE}
+knitr::opts_chunk$set(include = FALSE)
 library("papaja")
+
 r_refs("r-references.bib")
+
+source(
+  here::here("scripts","libraries.R")
+)
+
+source(
+  here::here("scripts","model.R")
+)
+
+source(
+  here::here("scripts","plots.R")
+)
 ```
 
 ```{r analysis-preferences}
@@ -78,26 +69,42 @@ knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
 
 
 # Methods
-We report how we determined our sample size, all data exclusions (if any), all manipulations, and all measures in the study. <!-- 21-word solution (Simmons, Nelson & Simonsohn, 2012; retrieved from http://ssrn.com/abstract=2160588) -->
 
 ## Participants
+200 L1 English L2 Spanish and 200 L1 Spanish participants were simulated. L2 Spanish speakers were simulated as advanced L2 speakers to match the replicated study.
 
 ## Material
+Participants were exposed to 40 videos in 8 conditions (n=5 per condition).
 
-## Procedure
+Each video had four characters. In one condition, three of the four characters performed an action; in the other condition, all four characters performed an action.
+
+After each video, participants were presented with a statement about the video. The statement used either "unos" or "algunos", and it was either felicitous or not. Participants were asked to judge the truth value of the statement and given a binary choice of "acceptable" or "unacceptable".
+
+```{r}
+tibble(
+  word = c("unos","unos","unos","unos","algunos","algunos","algunos","algunos"),
+  felicitous = c("felicitous","felicitous","infelicitous","infelicitous","felicitous","felicitous","infelicitous","infelicitous"),
+  condition = c("3/4", "4/4","3/4","4/4","3/4","4/4","3/4","4/4"),
+  n = c(5,5,5,5,5,5,5,5)
+) %>% kable(., caption = "Eight conditions for each participant")
+```
 
 ## Data analysis
-We used `r cite_r("r-references.bib")` for all our analyses.
-
+For our analysis, we used the R package glmer(). We investigated various models, taking into account word used ("algunos" or "unos"), condition (3/4 characters or 4/4 characters), and group (L1 Spanish L2 Spanish).
 
 # Results
+## Descriptive
+The results are presented descriptively in Figure 1. Visually, L1 and L2 Spanish speakers performed identically. That is, it appears that L2 Spanish speakers accurately compute the "algunos" scalar implicature so that they may accept felicitous and reject infelicitous statements.
+
+```{r plot, echo=FALSE}
+plot1
+```
+
+## Statistical models
+The data was examined using the R package glmer() and nested models. The models compared included group (L1 Spanish or L2 Spanish), word (algunos or unos), and number of characters performing an action (3/4 or 4/4). Participant was added as a random effect.
+
+There was a significant effect of word ($\beta$ = `r summary(mod3)$coefficients[3]`, p = `r summary(mod3)$coefficients[3,4]`) and number ($\beta$ = `r summary(mod3)$coefficients[4]`, p = `r summary(mod3)$coefficients[4,4]`), but not group.
 
 # Discussion
 
-
-\newpage
-
-# References
-
-::: {#refs custom-style="Bibliography"}
-:::
+The descriptive results and statistical models provide evidence that advanced L2 speakers can acquire scalar implicatures in Spanish. They are able to perceptually differentiate the felicitous and infelicitous situations for "algunos" and "unos". In the future, investigating the felicitousness of their production of scalar implicatures would be ideal.

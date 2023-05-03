@@ -1,0 +1,231 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  man]{apa6}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+\babelprovide[main,import]{english}
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+% Manuscript styling
+\usepackage{upgreek}
+\captionsetup{font=singlespacing,justification=justified}
+
+% Table formatting
+\usepackage{longtable}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\centering\begin{threeparttable}}
+%   {\end{threeparttable}\end{landscape}}
+\newenvironment{lltable}{\begin{landscape}\centering\begin{ThreePartTable}}{\end{ThreePartTable}\end{landscape}}
+
+% Enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand{\getlongtablewidth}{\begingroup \ifcsname LT@\roman{LT@tables}\endcsname \global\longtablewidth=0pt \renewcommand{\LT@entry}[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}\@nameuse{LT@\roman{LT@tables}} \fi \endgroup}
+
+% \setlength{\parindent}{0.5in}
+% \setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+% Overwrite redefinition of paragraph and subparagraph by the default LaTeX template
+% See https://github.com/crsh/papaja/issues/292
+\makeatletter
+\renewcommand{\paragraph}{\@startsection{paragraph}{4}{\parindent}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\itshape\typesectitle}}
+
+\renewcommand{\subparagraph}[1]{\@startsection{subparagraph}{5}{1em}%
+  {0\baselineskip \@plus 0.2ex \@minus 0.2ex}%
+  {-\z@\relax}%
+  {\normalfont\normalsize\itshape\hspace{\parindent}{#1}\textit{\addperi}}{\relax}}
+\makeatother
+
+% \usepackage{etoolbox}
+\makeatletter
+\patchcmd{\HyOrg@maketitle}
+  {\section{\normalfont\normalsize\abstractname}}
+  {\section*{\normalfont\normalsize\abstractname}}
+  {}{\typeout{Failed to patch abstract.}}
+\patchcmd{\HyOrg@maketitle}
+  {\section{\protect\normalfont{\@title}}}
+  {\section*{\protect\normalfont{\@title}}}
+  {}{\typeout{Failed to patch title.}}
+\makeatother
+
+\usepackage{xpatch}
+\makeatletter
+\xapptocmd\appendix
+  {\xapptocmd\section
+    {\addcontentsline{toc}{section}{\appendixname\ifoneappendix\else~\theappendix\fi\\: #1}}
+    {}{\InnerPatchFailed}%
+  }
+{}{\PatchFailed}
+\keywords{scalar implicature, syntax, pragmatic, syntax-pragmatic interface, Spanish, L2 Spanish\newline\indent Word count: X}
+\DeclareDelayedFloatFlavor{ThreePartTable}{table}
+\DeclareDelayedFloatFlavor{lltable}{table}
+\DeclareDelayedFloatFlavor*{longtable}{table}
+\makeatletter
+\renewcommand{\efloat@iwrite}[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}
+\makeatother
+\usepackage{lineno}
+
+\linenumbers
+\usepackage{csquotes}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Not just algunos, but indeed unos L2ers can acquire scalar implicatures in L2 Spanish},
+  pdfauthor={Robert Esposito1},
+  pdflang={en-EN},
+  pdfkeywords={scalar implicature, syntax, pragmatic, syntax-pragmatic interface, Spanish, L2 Spanish},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Not just algunos, but indeed unos L2ers can acquire scalar implicatures in L2 Spanish}
+\author{Robert Esposito\textsuperscript{1}}
+\date{}
+
+
+\shorttitle{A replication study with simulated data}
+
+\authornote{
+
+Department of Spanish and Portuguese
+
+The authors made the following contributions. Robert Esposito: Conceptualization, Writing - Original Draft Preparation, Writing - Review \& Editing.
+
+Correspondence concerning this article should be addressed to Robert Esposito, 57 US Highway 1. New Brunswick, NJ 08901-8554.. E-mail: \href{mailto:rme70@scarletmail.rutgers.edu}{\nolinkurl{rme70@scarletmail.rutgers.edu}}
+
+}
+
+\affiliation{\vspace{0.5cm}\textsuperscript{1} Rutgers University}
+
+\abstract{%
+This study investigates the acquisition of scalar implicatures in Spanish L2 learners through the perception of ``algunos'' and ``unos'', Spanish's two definite determiners. Although interchangeable in some contexts, ``algunos'' involves a scalar implicature (SI) ``some, but not all'', which may be difficult for L2 Spanish L1 English learners since this distinction is not made for English ``some''. I present 40 videos to participants, each of which contains four characters. The videos vary by number of characters performing an action (either 3 or 4 characters). After each video, the participant is presented with a statement about the video and must judge its acceptability. The statements vary by word (algunos or unos) and felicity. If L2 Spanish learners are sensitive to the SI of ``algunos'', they will perform like monolingual L1 Spanish speakers. The data was log-transformed and modeled using the R package glmer(), which provided evidence that L1 and L2 Spanish speakers patterned similarly in their judgements. Given this evidence, it appears that L2 Spanish L1 English speakers acquire the scalar implicature from ``algunos'' and are able to make the relevant distinction between ``algunos'' and ``unos''.
+}
+
+
+
+\begin{document}
+\maketitle
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+\hypertarget{participants}{%
+\subsection{Participants}\label{participants}}
+
+200 L1 English L2 Spanish and 200 L1 Spanish participants were simulated. L2 Spanish speakers were simulated as advanced L2 speakers to match the replicated study.
+
+\hypertarget{material}{%
+\subsection{Material}\label{material}}
+
+Participants were exposed to 40 videos in 8 conditions (n=5 per condition).
+
+Each video had four characters. In one condition, three of the four characters performed an action; in the other condition, all four characters performed an action.
+
+After each video, participants were presented with a statement about the video. The statement used either ``unos'' or ``algunos'', and it was either felicitous or not. Participants were asked to judge the truth value of the statement and given a binary choice of ``acceptable'' or ``unacceptable''.
+
+\hypertarget{data-analysis}{%
+\subsection{Data analysis}\label{data-analysis}}
+
+For our analysis, we used the R package glmer(). We investigated various models, taking into account word used (``algunos'' or ``unos''), condition (3/4 characters or 4/4 characters), and group (L1 Spanish L2 Spanish).
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{descriptive}{%
+\subsection{Descriptive}\label{descriptive}}
+
+The results are presented descriptively in Figure 1. Visually, L1 and L2 Spanish speakers performed identically. That is, it appears that L2 Spanish speakers accurately compute the ``algunos'' scalar implicature so that they may accept felicitous and reject infelicitous statements.
+
+\hypertarget{statistical-models}{%
+\subsection{Statistical models}\label{statistical-models}}
+
+The data was examined using the R package glmer() and nested models. The models compared included group (L1 Spanish or L2 Spanish), word (algunos or unos), and number of characters performing an action (3/4 or 4/4). Participant was added as a random effect.
+
+There was a significant effect of word (\(\beta\) = 0.31, p = 0.00) and number (\(\beta\) = -0.07, p = 0.00), but not group.
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+The descriptive results and statistical models provide evidence that advanced L2 speakers can acquire scalar implicatures in Spanish. They are able to perceptually differentiate the felicitous and infelicitous situations for ``algunos'' and ``unos''. In the future, investigating the felicitousness of their production of scalar implicatures would be ideal.
+
+
+\end{document}

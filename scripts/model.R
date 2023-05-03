@@ -39,9 +39,5 @@ mod3 <- glmer(
   data = tidy_data
 )
 
-mod4 <- glmer(
-  formula = preference ~ 1 + mono*word +
-  (1 | id),
-  family = binomial(link = "logit"),
-  data = tidy_data
-)
+summary(mod3)$coefficients[3]
+summary(mod3)$coefficients[3,4]

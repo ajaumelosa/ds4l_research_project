@@ -15,7 +15,7 @@ raw_data <- read_csv(
 
 gen_data <- raw_data %>%
   add_column(
-    felicitous = rep(c("felicitous","infelicitous"), each = 10, times = 400
+    felicitous = rep(c("felicitous","infelicitous"), each = 5, times = 800
     )
   )
 
